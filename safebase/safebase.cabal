@@ -1,0 +1,26 @@
+Name:                 safebase
+Version:              2011.12
+Build-type:           Simple
+Synopsis:             a set of safe operations for a webserver
+Description:
+        
+    SafeBase: a set of safe operations for a webserver
+
+License:              BSD3
+License-file:         LICENSE
+Author:               John Hiesey
+Maintainer:           John Hiesey <john@hiesey.com>
+Build-Depends:        base
+Cabal-version:        >= 1.2
+category:             Web
+data-files:           readme.md, changelog.md
+
+library
+  ghc-options: -Wall -XTrustworthy
+  build-depends: base >= 3 && < 5, bytestring, enumerator < 5, time
+  hs-source-dirs: src/
+  exposed-modules:  
+                    SafeBase
+                    SafeBase.RIO
+                    SafeBase.ByteString
+                    SafeBase.Enumerator
