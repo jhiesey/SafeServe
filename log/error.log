@@ -315,3 +315,129 @@ test.hs:(88,11)-(90,34): Non-exhaustive patterns in case
 [13/Dec/2011:20:13:08 -0800] Server.httpServe: START (EventLoopSimple)
 [13/Dec/2011:20:21:22 -0800] Server.httpServe: SHUTDOWN
 [13/Dec/2011:20:21:22 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:21:12:00 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:21:23:30 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:21:23:30 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:21:23:46 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:21:24:28 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:21:24:28 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:21:24:39 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:21:24:54 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:21:24:54 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:21:25:09 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:21:35:28 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:21:35:28 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:22:42:39 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:22:45:26 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:22:45:26 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:22:49:10 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:23:06:09 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:23:06:09 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:23:06:11 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:23:07:52 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:23:07:52 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:23:08:18 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:23:31:36 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:23:31:36 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:23:33:42 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:00:15:23 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:00:15:23 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:00:19:45 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:01:02:10 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:01:02:10 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:01:02:29 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:06:46:39 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:06:46:39 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:06:47:13 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:06:49:46 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:06:49:46 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:06:50:12 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:06:50:13 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:06:50:13 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:07:12:32 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:07:12:34 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:07:12:34 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:07:31:54 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:07:31:56 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:07:31:56 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:07:32:01 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:07:32:02 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:07:32:02 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:07:32:14 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:07:32:15 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:07:32:15 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:08:14:07 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:14:08 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:08:14:08 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:08:35:49 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:36:50 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:47:30 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:50:18 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:50:42 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:54:10 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:56:06 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:08:57:34 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:01:11 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:02:18 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:02:18 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:04:32 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:08:52 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:08:52 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:11:33 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:12:19 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:12:19 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:12:20 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:12:23 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:12:23 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:13:07 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:13:22 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:18:58 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:18:58 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:18:59 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:21:52 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:28:27 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:28:43 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:28:43 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:28:43 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:51:11 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:53:46 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:53:46 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:54:04 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:56:06 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:56:06 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:56:07 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:09:59:00 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:09:59:00 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:09:59:32 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:00:44 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:00:44 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:01:12 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:03:15 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:03:15 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:04:03 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:09:01 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:09:01 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:09:04 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:09:23 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:09:23 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:09:25 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:13:07 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:13:07 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:17:52 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:17:55 -0800] During processing of request from 127.0.0.1:57516
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:57516\n    local: 127.0.0.1:3000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.121 Safari/535.2\n Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.3\n Accept-Language: en-US,en;q=0.8\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\n Host: localhost:3000\n Cache-Control: max-age=0\n Connection: keep-alive\n Accept-Encoding: gzip,deflate,sdch\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: magic\n    contextpath: /\n    snapletpath: \n    URI: /magic\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+src/SafeBase/Framework.hs:195:18-123: Missing field in record construction SafeBase.Framework.middlewares
+
+[14/Dec/2011:10:20:35 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:20:35 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:20:58 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:22:15 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:22:15 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:22:16 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:23:29 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:23:29 -0800] Server.httpServe: BACKEND STOPPED
+[14/Dec/2011:10:23:31 -0800] Server.httpServe: START (EventLoopSimple)
+[14/Dec/2011:10:37:17 -0800] Server.httpServe: SHUTDOWN
+[14/Dec/2011:10:37:17 -0800] Server.httpServe: BACKEND STOPPED

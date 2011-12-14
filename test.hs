@@ -8,19 +8,26 @@ import Air.Env hiding ((.))
 import qualified Control.Monad.State as St
 import qualified Control.Monad.Reader as Rd
 import qualified Hack2 as Hk
+import qualified Hack2.Contrib.Response as HkR
 import Control.Monad
 import Data.List
 import Data.Maybe
 import Control.DeepSeq
+import SafeBase.RIO
  
 -- import qualified Data.ByteString as BS
 import Network.Miku
 import Network.Miku.Engine
 import Network.Miku.Utils
+import Network.Miku.Type (AppMonad)
 import Hack2.Handler.SnapServer
 import Hack2.Contrib.Request
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.Lazy.Char8 as L
+
+import qualified SafeBase.Framework as SF
+
+import Data.Enumerator (Enumerator, enumEOF)
 
 
 -- Templates
@@ -50,9 +57,7 @@ main = do
       pt <- io (B.readFile "miku/miku.cabal")
       text pt
   
-    get "/magic" $ do
-      pt <- io (runProg "DynamicTest" >>= return . B.pack)
-      text pt
+    get "/magic" $ runProgMonadic "DynamicTest"
     
     post "/saveprog" $ do
       stuff <- Rd.ask
@@ -71,26 +76,103 @@ main = do
 -- l2s x = B.concat $ L.toChunks x  
 --   
 
-runProg :: String -> IO String
-runProg modName = do
+-- instance NFData Strict.ByteString
+
+theApp :: SF.Application
+theApp _ = return $ SF.Response { SF.status = 200, SF.headers = [], SF.body = "BODY" }
+
+resource = Interface { function = theApp }
+
+runProgMonadic :: String -> AppMonad
+runProgMonadic progName = do
+  resApp <- io (loadProg progName)
+  case resApp of
+    Right fa -> text $ B.pack fa
+    Left (mod, v) -> do
+      -- text "SUCCESS!"
+      env <- Rd.ask
+      safeEnv <- io (toSafeEnv env)
+      io (putStrLn "Got here")
+      safeRes <- io (runRIO $ function v $ safeEnv)
+      -- safeRes <- io (runRIO $ theApp $  safeEnv)     
+      St.put $ fromSafeResponse safeRes
+
+toStrict = fromMaybe B.empty . listToMaybe . L.toChunks
+
+toSafeEnv :: Hk.Env -> IO SF.Env
+toSafeEnv hkEnv = do
+  byteStr <- input_bytestring hkEnv
+  return $ SF.Env { SF.requestMethod = Hk.requestMethod hkEnv,
+      SF.scriptName = Hk.scriptName hkEnv,
+      SF.pathInfo = Hk.pathInfo hkEnv,
+      SF.queryString = Hk.queryString hkEnv,
+      SF.serverName = Hk.serverName hkEnv,
+      SF.serverPort = Hk.serverPort hkEnv,
+      SF.httpHeaders = Hk.httpHeaders hkEnv,
+      SF.hackVersion = Hk.hackVersion hkEnv,
+      SF.hackUrlScheme = Hk.hackUrlScheme hkEnv,
+      SF.hackInput = toStrict byteStr,
+      SF.hackErrors = "Can haz error?",
+      SF.hackHeaders = Hk.hackHeaders hkEnv
+    }
+
+fromSafeResponse :: SF.Response -> Hk.Response
+fromSafeResponse sfRes = HkR.set_body_bytestring (L.fromChunks [SF.body sfRes]) $ Hk.Response
+  { Hk.status = SF.status sfRes,
+    Hk.headers = SF.headers sfRes,
+    Hk.body = Hk.HackEnumerator enumEOF
+  }
+
+
+  -- pt <- io (runProg "DynamicTest" >>= return . B.pack)
+  -- text $ B.pack "pt"
+
+loadProg :: String -> IO (Either (Module, Interface) String)
+loadProg modName = do
   status <- make (modName++".hs") ["-iapi", "-XSafe"]
   putStrLn $ show status
   case status of
     MakeSuccess _ _ -> f
-    MakeFailure e -> return $ concat e
+    MakeFailure e -> return $ Right $ intercalate "\n" e
   
   where
     f = do 
       loadStatus <- pdynload_ (modName++".o") ["api"] [] ["-XSafe"] "API.Interface" "resource"
       case loadStatus of
-        LoadFailure msg -> return $ show msg
-        LoadSuccess mod v -> do
-          let resString = function v
-          resString `deepseq` unload mod
-          return resString
+        LoadFailure msg -> return $ Right $ show msg
+        LoadSuccess mod v -> return $ Left $ (mod, v)
+
+
+-- runProgMonadic = do
+--  resApp <- io (runProg "DynamicTest")
+--  case resApp of
+--    Left ap -> text $ "SUCCESS"
+--    Right fa -> text $ B.pack fa
+--   -- pt <- io (runProg "DynamicTest" >>= return . B.pack)
+--  -- text $ B.pack "pt"
+-- 
+-- runProg :: String -> IO (Either SF.Application String)
+-- runProg modName = do
+--   status <- make (modName++".hs") ["-iapi", "-XSafe"]
+--   putStrLn $ show status
+--   case status of
+--     MakeSuccess _ _ -> f
+--     MakeFailure e -> return $ Right $ intercalate "\n" e
+--   
+--   where
+--     f = do 
+--       loadStatus <- pdynload_ (modName++".o") ["api"] [] ["-XSafe"] "API.Interface" "resource"
+--       case loadStatus of
+--         LoadFailure msg -> return $ Right $ show msg
+--         LoadSuccess mod v -> do
+--          let resApp = function v
+--           -- resApp `deepseq` unload mod
+--          unload mod
+--          return $ Left $ resApp
  
  
- 
+-- runAsMiddleware :: SF.Application -> Hk.Middleware
+-- runAsMiddleware = undefined
 
 
 -- src     = "Plugin.hs"

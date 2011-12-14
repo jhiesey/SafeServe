@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- module DynamicTest where
 --   
 -- aFunction :: IO String
@@ -16,5 +18,19 @@
 module DynamicTest where
 
 import API
+import SafeBase.Framework
+import SafeBase.RIO
 
-resource = plugin { function = "Whatever I want" }
+resource = Interface { function = theApp }
+
+theApp :: Application
+-- theApp _ = return $ Response { status = 200, headers = [], body = "BODY" }
+theApp =  safeserve $ do
+    --return ()
+    -- before $ \e -> do
+    --   Prelude.putStrLn "before called"
+    --   return e
+    
+    get "/magic" $ do
+      lift $ lift $ rioPutStrLn "Testing"
+      html "YEEHAW!!!"

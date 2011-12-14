@@ -17,10 +17,11 @@ data-files:           readme.md, changelog.md
 
 library
   ghc-options: -Wall -XTrustworthy
-  build-depends: base >= 3 && < 5, bytestring, enumerator < 5, time
+  build-depends: base >= 3 && < 5, bytestring, enumerator < 5, time, filepath, mtl, data-default >= 0.3.0, hack2, transformers
   hs-source-dirs: src/
   exposed-modules:  
                     SafeBase
                     SafeBase.RIO
                     SafeBase.ByteString
                     SafeBase.ByteString.Char8
+                    SafeBase.Framework

@@ -1,9 +1,11 @@
 module API where
+	
+import SafeBase.Framework
 
 data Interface = Interface { 
-        function :: String
+        function :: Application
 }
 
-plugin :: Interface
-plugin = Interface  { function = "goodbye" }
+-- plugin :: Interface
+-- plugin = Interface  { function = "goodbye" }
 
