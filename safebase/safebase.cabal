@@ -23,4 +23,4 @@ library
                     SafeBase
                     SafeBase.RIO
                     SafeBase.ByteString
-                    SafeBase.Enumerator
+                    SafeBase.ByteString.Char8

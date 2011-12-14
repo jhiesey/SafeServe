@@ -17,4 +17,4 @@ module DynamicTest where
 
 import API
 
-resource = plugin { function = "good to see ya again again 3" }
+resource = plugin { function = "Whatever I want" }

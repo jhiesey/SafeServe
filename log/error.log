@@ -312,3 +312,6 @@ test.hs:(88,11)-(90,34): Non-exhaustive patterns in case
 [13/Dec/2011:02:59:04 -0800] Server.httpServe: START (EventLoopSimple)
 [13/Dec/2011:04:06:35 -0800] Server.httpServe: SHUTDOWN
 [13/Dec/2011:04:06:35 -0800] Server.httpServe: BACKEND STOPPED
+[13/Dec/2011:20:13:08 -0800] Server.httpServe: START (EventLoopSimple)
+[13/Dec/2011:20:21:22 -0800] Server.httpServe: SHUTDOWN
+[13/Dec/2011:20:21:22 -0800] Server.httpServe: BACKEND STOPPED
