@@ -21,9 +21,6 @@ theApp =  F.safeserve $ do
     
     F.get "/" $ do
       lift $ lift $ rioPutStrLn "Testing"
-      F.html "The main page! again"
-
-    F.get "/template" $ do
       F.html $ B.pack runTemplate
 
 runTemplate :: String
@@ -32,6 +29,7 @@ runTemplate = renderHtml templ
 templ ::  Html
 templ = docTypeHtml $ do
   H.head $ do
-    H.title "A templated page"
+    H.title "Welcome to SafeServe"
   H.body $ do
-    H.p "the body"
+    H.p "This is a very simple sample app page."
+    H.a ! A.href "/run/default/anotherPage" $ "Here's a link to another page"

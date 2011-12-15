@@ -28,6 +28,13 @@
   (major1) == 1 && (major2) <  2 || \
   (major1) == 1 && (major2) == 2 && (minor) <= 0)
 
+/* package directory-1.1.0.1 */
+#define VERSION_directory "1.1.0.1"
+#define MIN_VERSION_directory(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  1 || \
+  (major1) == 1 && (major2) == 1 && (minor) <= 0)
+
 /* package enumerator-0.4.16 */
 #define VERSION_enumerator "0.4.16"
 #define MIN_VERSION_enumerator(major1,major2,minor) (\
