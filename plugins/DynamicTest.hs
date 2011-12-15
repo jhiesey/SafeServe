@@ -1,20 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- module DynamicTest where
---   
--- aFunction :: IO String
--- aFunction = do
---   let a = 2 + 3
---   putStrLn "another test"
---   return $ "Hi Feross!" ++ show a
--- 
--- 
--- main :: IO ()
--- main = do
---   x <- aFunction
---   putStrLn x
-
-
 module DynamicTest where
 
 import API
@@ -32,21 +17,13 @@ import qualified SafeBlaze.Html5.Attributes as A
 resource = Interface { function = theApp }
 
 theApp :: Application
--- theApp _ = return $ Response { status = 200, headers = [], body = "BODY" }
 theApp =  F.safeserve $ do
-    --return ()
-    -- before $ \e -> do
-    --   Prelude.putStrLn "before called"
-    --   return e
     
-    F.get "/magic" $ do
+    F.get "/" $ do
       lift $ lift $ rioPutStrLn "Testing"
-      F.html "The main page!"
+      F.html "The main page! again"
 
-    --F.get "/magic/:cap" $ do
-    -- F.text . B.pack . show =<< F.captures
-
-    F.get "/magic/template" $ do
+    F.get "/template" $ do
       F.html $ B.pack runTemplate
 
 runTemplate :: String

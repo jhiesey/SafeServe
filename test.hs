@@ -24,49 +24,76 @@ import Hack2.Handler.SnapServer
 import Hack2.Contrib.Request
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.Lazy.Char8 as L
+import System.FilePath ((</>))
+import Text.Blaze.Renderer.Utf8
 
 import qualified SafeBase.Framework as Sf
 
 import Data.Enumerator (Enumerator, enumEOF)
 
+import System.IO.Unsafe
 
 -- Templates
-import WWW.Templates.MainPage
+import WWW.Templates.Editor
+
 
 extractCode :: [(B.ByteString, B.ByteString)] -> B.ByteString
 extractCode reqBody = fromJust $ Data.List.lookup "theprogram" reqBody
 
+extractSiteName :: [(B.ByteString, B.ByteString)] -> String
+extractSiteName cap = fromJust $ fmap (B.unpack . snd) $ find (((==) "sitename") . fst) cap
+
+haskellPath :: String -> Maybe String
+haskellPath name = if ".." `isInfixOf` name then Nothing else Just ("plugins" </> (name ++ ".hs"))
+
+readSource :: String -> IO (Maybe B.ByteString)
+readSource name = 
+  case haskellPath name of
+    Nothing -> return Nothing
+    Just path -> catch (fmap Just $ B.readFile path) (return $ return Nothing)
+    
+saveSource :: String -> B.ByteString -> IO ()
+saveSource name body =
+  case haskellPath name of
+    Nothing -> return ()
+    Just path -> B.writeFile path body
+    
+editor_page :: String -> B.ByteString -> L.ByteString
+editor_page siteName fileBody = renderHtml $ editor siteName $ B.unpack fileBody
+
+
 main = do
   run . miku $ do  
-    get "/lol" $ do
-      progBody <- io $ B.readFile "DynamicTest.hs"
-      html $ l2s $ test_page progBody
-
-    get "/" $ do
-      html "miku power"
-    
-    get "/cabal" $ do 
-      pt <- io (B.readFile "miku/miku.cabal")
-      text pt
-  
-    get "/magic/*" $ runProgMonadic "DynamicTest"
-    
-    get "/magic2/:stuff2" $ do
-      text . B.pack . show =<< captures
-    
-    post "/saveprog" $ do
+    get "/edit/:sitename" $ do
+      name <- captures >>= (return . extractSiteName)
+      progBody <- io $ readSource name
+      case progBody of
+        Nothing -> text $ "Sorry, that site doesn't exist"
+        Just contents -> html $ l2s $ editor_page name contents
+	  
+    post "/edit/:sitename" $ do
+      name <- captures >>= (return . extractSiteName)
       stuff <- Rd.ask
       let decoded = inputs stuff
       reqBody <- io decoded
       let progBody = extractCode reqBody
-      -- io $ putStrLn $ show progBody
-      io $ B.writeFile "DynamicTest.hs" progBody
-      
-      
-      html $ l2s $ test_page progBody
-    
-    public (Just "www") ["/static"]
+      io $ saveSource name progBody
 
+      html $ l2s $ editor_page name progBody
+      
+    get "/run/:sitename" $ do
+      name <- captures >>= (return . extractSiteName)
+      runProgMonadic name
+      
+    get "/run/:sitename/*" $ do
+      name <- captures >>= (return . extractSiteName)
+      runProgMonadic name
+
+
+    get "/" $ do
+      html "You found the homepage!"
+
+    public (Just "www") ["/static"]
 
 runProgMonadic :: String -> AppMonad
 runProgMonadic progName = do
@@ -74,22 +101,25 @@ runProgMonadic progName = do
   case resApp of
     Right fa -> text $ B.pack fa
     Left (mod, v) -> do
-      -- text "SUCCESS!"
       env <- Rd.ask
       safeEnv <- io (toSafeEnv env)
-      io (putStrLn "Got here")
+      io (putStrLn "About to run plugin")
       safeRes <- io (runRIO $ function v $ safeEnv)
       io (safeRes `deepseq` (unload mod))    
       St.put $ fromSafeResponse safeRes
 
 toStrict = fromMaybe B.empty . listToMaybe . L.toChunks
 
+removeStart :: B.ByteString -> B.ByteString
+removeStart fullPath = if Data.List.length slashes Prelude.> 2 then B.drop (slashes Data.List.!! 2) fullPath else B.singleton '/'
+  where slashes = B.elemIndices '/' fullPath
+
 toSafeEnv :: Hk.Env -> IO Sf.Env
 toSafeEnv hkEnv = do
   byteStr <- input_bytestring hkEnv
   return $ Sf.Env { Sf.requestMethod = Hk.requestMethod hkEnv,
       Sf.scriptName = Hk.scriptName hkEnv,
-      Sf.pathInfo = Hk.pathInfo hkEnv,
+      Sf.pathInfo = removeStart $ Hk.pathInfo hkEnv,
       Sf.queryString = Hk.queryString hkEnv,
       Sf.serverName = Hk.serverName hkEnv,
       Sf.serverPort = Hk.serverPort hkEnv,
@@ -109,18 +139,20 @@ fromSafeResponse sfRes = HkR.set_body_bytestring (L.fromChunks [Sf.body sfRes]) 
   }
 
 loadProg :: String -> IO (Either (Module, Interface) String)
-loadProg modName = do
-  status <- make (modName++".hs") ["-iapi", "-XSafe"]
-  putStrLn $ show status
-  case status of
-    MakeSuccess _ _ -> f
-    MakeFailure e -> return $ Right $ intercalate "\n" e
+loadProg modName =
+  case haskellPath modName of
+    Nothing -> return $ Right "Invalid site path"
+    Just path -> do
+      status <- make path ["-iapi", "-XSafe"]
+      putStrLn $ show status
+      case status of
+        MakeSuccess _ _ -> f
+        MakeFailure e -> return $ Right $ intercalate "\n" e
   
-  where
-    f = do 
-      loadStatus <- pdynload_ (modName++".o") ["api"] [] ["-XSafe"] "API.Interface" "resource"
-      case loadStatus of
-        LoadFailure msg -> return $ Right $ show msg
-        LoadSuccess mod v -> return $ Left $ (mod, v)
-
-
+      where
+        f = do
+          let binPath = "plugins" </> (modName ++ ".o")
+          loadStatus <- pdynload_ binPath ["api"] [] ["-XSafe"] "API.Interface" "resource"
+          case loadStatus of
+            LoadFailure msg -> return $ Right $ show msg
+            LoadSuccess mod v -> return $ Left $ (mod, v)

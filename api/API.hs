@@ -6,6 +6,3 @@ data Interface = Interface {
         function :: Application
 }
 
--- plugin :: Interface
--- plugin = Interface  { function = "goodbye" }
-
