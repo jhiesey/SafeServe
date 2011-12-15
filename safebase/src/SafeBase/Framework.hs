@@ -16,7 +16,10 @@ import qualified Data.Foldable as DF
 import Data.Monoid
 import System.FilePath ((</>))
 import Hack2 (RequestMethod (OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT), HackUrlScheme (HTTP, HTTPS))
--- import Control.DeepSeq
+import Control.DeepSeq
+-- import Network.Miku.Engine (parse_params)
+-- 
+-- import System.IO.Unsafe
 
 type Application = Env -> RIO Response
 type Middleware  = Application -> Application
@@ -56,6 +59,11 @@ data Response = Response
   ,  body     :: ByteString
   }
   deriving (Show)
+
+instance NFData Strict.ByteString
+
+instance NFData Response where
+  rnf res = (status res) `deepseq` (headers res) `deepseq` (body res) `deepseq` ()
   
 -- instance NFData Response where
 --   rnf a b c = a `seq` b `seq` rnf c
@@ -243,6 +251,9 @@ reject f = filter (not . f)
 
 belongs_to :: (DF.Foldable t, Eq a) => t a -> a -> Bool
 belongs_to = flip DF.elem
+
+namespace :: ByteString -> Env -> [(ByteString, ByteString)]
+namespace x env = map_fst (B.drop (B.length x)) $ select ((B.isPrefixOf x) . fst) $ hackHeaders env
   
 put_namespace :: ByteString -> [(ByteString, ByteString)] -> Env -> Env
 put_namespace x xs env = 
@@ -253,13 +264,16 @@ put_namespace x xs env =
 	      reject (fst >>> belongs_to new_headers) (hackHeaders env) ++ adds 
 	in
 	env {hackHeaders = new_hack_headers}
-  
+
+
+captures :: AppMonadT [(ByteString, ByteString)]
+captures = fmap (namespace safeserve_captures) ask
 
 safeserve_router :: RequestMethod -> ByteString -> AppMonad -> Middleware
 safeserve_router route_method route_string app_monad app = \env ->
   if requestMethod env == route_method 
     then
-      case parse_params (pathInfo env) route_string of
+      case parse_params route_string (pathInfo env) of
         Nothing -> app env
         Just (_, params) -> 
           let safeserve_app = run_app_monad $ local (put_namespace safeserve_captures params) app_monad 
@@ -311,4 +325,4 @@ parse_params t s =
       | x == "*" = Just Nothing
       | x == y = Just Nothing
       | otherwise = Nothing
-	  
+    

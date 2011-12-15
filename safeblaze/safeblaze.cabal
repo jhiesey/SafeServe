@@ -1,0 +1,30 @@
+Name:                 safeblaze
+Version:              2011.12
+Build-type:           Simple
+Synopsis:             a safe interface to Blaze
+Description:
+        
+    SafeBlaze: a safe interface to Blaze
+
+License:              BSD3
+License-file:         LICENSE
+Author:               John Hiesey
+Maintainer:           John Hiesey <john@hiesey.com>
+Build-Depends:        base
+Cabal-version:        >= 1.2
+category:             Web
+data-files:           readme.md, changelog.md
+
+library
+  ghc-options: -Wall -XTrustworthy
+  build-depends: base, blaze-html
+  hs-source-dirs: src/
+  exposed-modules:  
+                    SafeBlaze
+                    SafeBlaze.Internal
+                    SafeBlaze.Html5
+                    SafeBlaze.Html5.Attributes
+                    SafeBlaze.Renderer.String
+                    SafeBlaze.Renderer.Pretty
+                    SafeBlaze.Renderer.Utf8
+                    SafeBlaze.Renderer.Text

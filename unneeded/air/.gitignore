@@ -1,0 +1,12 @@
+*.swp
+*.swo
+*.o
+*.hi
+*.exe
+
+
+manifest
+.nemesis
+
+
+/dist

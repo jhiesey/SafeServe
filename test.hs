@@ -25,7 +25,7 @@ import Hack2.Contrib.Request
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.Lazy.Char8 as L
 
-import qualified SafeBase.Framework as SF
+import qualified SafeBase.Framework as Sf
 
 import Data.Enumerator (Enumerator, enumEOF)
 
@@ -37,16 +37,8 @@ extractCode :: [(B.ByteString, B.ByteString)] -> B.ByteString
 extractCode reqBody = fromJust $ Data.List.lookup "theprogram" reqBody
 
 main = do
-  -- putStrLn "BEFORE DYNLOAD2"
-  -- dynload2
-  -- putStrLn "AFTER DYNLOAD2"
-  run . miku $ do
-    -- before $ \e -> do
-    --   Prelude.putStrLn "before called"
-    --   return e
-  
+  run . miku $ do  
     get "/lol" $ do
-      -- putStr "non-root"
       progBody <- io $ B.readFile "DynamicTest.hs"
       html $ l2s $ test_page progBody
 
@@ -57,7 +49,10 @@ main = do
       pt <- io (B.readFile "miku/miku.cabal")
       text pt
   
-    get "/magic" $ runProgMonadic "DynamicTest"
+    get "/magic/*" $ runProgMonadic "DynamicTest"
+    
+    get "/magic2/:stuff2" $ do
+      text . B.pack . show =<< captures
     
     post "/saveprog" $ do
       stuff <- Rd.ask
@@ -71,17 +66,7 @@ main = do
       html $ l2s $ test_page progBody
     
     public (Just "www") ["/static"]
-  
--- l2s :: L.ByteString -> B.ByteString
--- l2s x = B.concat $ L.toChunks x  
---   
 
--- instance NFData Strict.ByteString
-
-theApp :: SF.Application
-theApp _ = return $ SF.Response { SF.status = 200, SF.headers = [], SF.body = "BODY" }
-
-resource = Interface { function = theApp }
 
 runProgMonadic :: String -> AppMonad
 runProgMonadic progName = do
@@ -94,38 +79,34 @@ runProgMonadic progName = do
       safeEnv <- io (toSafeEnv env)
       io (putStrLn "Got here")
       safeRes <- io (runRIO $ function v $ safeEnv)
-      -- safeRes <- io (runRIO $ theApp $  safeEnv)     
+      io (safeRes `deepseq` (unload mod))    
       St.put $ fromSafeResponse safeRes
 
 toStrict = fromMaybe B.empty . listToMaybe . L.toChunks
 
-toSafeEnv :: Hk.Env -> IO SF.Env
+toSafeEnv :: Hk.Env -> IO Sf.Env
 toSafeEnv hkEnv = do
   byteStr <- input_bytestring hkEnv
-  return $ SF.Env { SF.requestMethod = Hk.requestMethod hkEnv,
-      SF.scriptName = Hk.scriptName hkEnv,
-      SF.pathInfo = Hk.pathInfo hkEnv,
-      SF.queryString = Hk.queryString hkEnv,
-      SF.serverName = Hk.serverName hkEnv,
-      SF.serverPort = Hk.serverPort hkEnv,
-      SF.httpHeaders = Hk.httpHeaders hkEnv,
-      SF.hackVersion = Hk.hackVersion hkEnv,
-      SF.hackUrlScheme = Hk.hackUrlScheme hkEnv,
-      SF.hackInput = toStrict byteStr,
-      SF.hackErrors = "Can haz error?",
-      SF.hackHeaders = Hk.hackHeaders hkEnv
+  return $ Sf.Env { Sf.requestMethod = Hk.requestMethod hkEnv,
+      Sf.scriptName = Hk.scriptName hkEnv,
+      Sf.pathInfo = Hk.pathInfo hkEnv,
+      Sf.queryString = Hk.queryString hkEnv,
+      Sf.serverName = Hk.serverName hkEnv,
+      Sf.serverPort = Hk.serverPort hkEnv,
+      Sf.httpHeaders = Hk.httpHeaders hkEnv,
+      Sf.hackVersion = Hk.hackVersion hkEnv,
+      Sf.hackUrlScheme = Hk.hackUrlScheme hkEnv,
+      Sf.hackInput = toStrict byteStr,
+      Sf.hackErrors = "Can haz error?",
+      Sf.hackHeaders = Hk.hackHeaders hkEnv
     }
 
-fromSafeResponse :: SF.Response -> Hk.Response
-fromSafeResponse sfRes = HkR.set_body_bytestring (L.fromChunks [SF.body sfRes]) $ Hk.Response
-  { Hk.status = SF.status sfRes,
-    Hk.headers = SF.headers sfRes,
+fromSafeResponse :: Sf.Response -> Hk.Response
+fromSafeResponse sfRes = HkR.set_body_bytestring (L.fromChunks [Sf.body sfRes]) $ Hk.Response
+  { Hk.status = Sf.status sfRes,
+    Hk.headers = Sf.headers sfRes,
     Hk.body = Hk.HackEnumerator enumEOF
   }
-
-
-  -- pt <- io (runProg "DynamicTest" >>= return . B.pack)
-  -- text $ B.pack "pt"
 
 loadProg :: String -> IO (Either (Module, Interface) String)
 loadProg modName = do
@@ -143,57 +124,3 @@ loadProg modName = do
         LoadSuccess mod v -> return $ Left $ (mod, v)
 
 
--- runProgMonadic = do
---  resApp <- io (runProg "DynamicTest")
---  case resApp of
---    Left ap -> text $ "SUCCESS"
---    Right fa -> text $ B.pack fa
---   -- pt <- io (runProg "DynamicTest" >>= return . B.pack)
---  -- text $ B.pack "pt"
--- 
--- runProg :: String -> IO (Either SF.Application String)
--- runProg modName = do
---   status <- make (modName++".hs") ["-iapi", "-XSafe"]
---   putStrLn $ show status
---   case status of
---     MakeSuccess _ _ -> f
---     MakeFailure e -> return $ Right $ intercalate "\n" e
---   
---   where
---     f = do 
---       loadStatus <- pdynload_ (modName++".o") ["api"] [] ["-XSafe"] "API.Interface" "resource"
---       case loadStatus of
---         LoadFailure msg -> return $ Right $ show msg
---         LoadSuccess mod v -> do
---          let resApp = function v
---           -- resApp `deepseq` unload mod
---          unload mod
---          return $ Left $ resApp
- 
- 
--- runAsMiddleware :: SF.Application -> Hk.Middleware
--- runAsMiddleware = undefined
-
-
--- src     = "Plugin.hs"
--- -- wrap    = "../Wrapper.hs"
--- apipath = "api"
--- 
--- dynload2 :: IO ()
--- dynload2 = do
---   status <- make src ["-i"++apipath, "-XSafe"]
---   case status of
---     MakeSuccess _ _ -> f
---     MakeFailure e -> mapM_ putStrLn e
--- 
---   where
---     f = do
---       putStrLn "Trying to load"
---       v <- pdynload_ "Plugin.o" ["api"] [] ["-XSafe"] "API.Interface" "resource"
---       putStrLn "Tried loading"
---       case v of
---         LoadSuccess _ a  -> do
---           putStrLn "loaded .. yay!"
---           putStrLn $ function a
---         LoadFailure msg  -> putStrLn "failed"  >> print msg
-     

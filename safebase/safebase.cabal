@@ -17,7 +17,7 @@ data-files:           readme.md, changelog.md
 
 library
   ghc-options: -Wall -XTrustworthy
-  build-depends: base >= 3 && < 5, bytestring, enumerator < 5, time, filepath, mtl, data-default >= 0.3.0, hack2, transformers
+  build-depends: base >= 3 && < 5, bytestring, enumerator < 5, time, filepath, mtl, data-default >= 0.3.0, hack2, transformers, deepseq
   hs-source-dirs: src/
   exposed-modules:  
                     SafeBase

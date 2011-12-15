@@ -21,6 +21,13 @@
   (major1) == 0 && (major2) <  3 || \
   (major1) == 0 && (major2) == 3 && (minor) <= 0)
 
+/* package deepseq-1.2.0.1 */
+#define VERSION_deepseq "1.2.0.1"
+#define MIN_VERSION_deepseq(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  2 || \
+  (major1) == 1 && (major2) == 2 && (minor) <= 0)
+
 /* package enumerator-0.4.16 */
 #define VERSION_enumerator "0.4.16"
 #define MIN_VERSION_enumerator(major1,major2,minor) (\
