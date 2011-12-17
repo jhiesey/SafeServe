@@ -1,5 +1,17 @@
---- plugins-1.5.1.4-orig/src/System/Plugins/Load.hs	2010-10-18 11:13:03.000000000 -0700
-+++ plugins-1.5.1.4/src/System/Plugins/Load.hs	2011-12-13 01:12:34.000000000 -0800
+Only in plugins-1.5.1.4-new/: config.h
+Only in plugins-1.5.1.4-new/: config.log
+Only in plugins-1.5.1.4-new/: config.mk
+Only in plugins-1.5.1.4-new/: config.status
+Only in plugins-1.5.1.4-new/: dist
+Only in plugins-1.5.1.4-new/docs: hs-plugins.aux
+Only in plugins-1.5.1.4-new/docs: hs-plugins.fdb_latexmk
+Only in plugins-1.5.1.4-new/docs: hs-plugins.log
+Only in plugins-1.5.1.4-new/docs: hs-plugins.pdf
+Only in plugins-1.5.1.4-new/docs: hs-plugins.synctex.gz
+Only in plugins-1.5.1.4-new/docs: hs-plugins.toc
+diff -ru plugins-1.5.1.4/src/System/Plugins/Load.hs plugins-1.5.1.4-new/src/System/Plugins/Load.hs
+--- plugins-1.5.1.4/src/System/Plugins/Load.hs	2010-10-18 11:13:03.000000000 -0700
++++ plugins-1.5.1.4-new/src/System/Plugins/Load.hs	2011-12-13 01:12:34.000000000 -0800
 @@ -84,7 +84,7 @@
  import System.Directory         ( doesFileExist, removeFile )
  import Foreign.C.String         ( CString, withCString, peekCString )
@@ -38,3 +50,9 @@
                  ps' <- filterM loaded . map packageIdString . nub $ ps
  
  #if DEBUG
+Only in plugins-1.5.1.4-new/testsuite/makewith/io: TestIO.conf
+Only in plugins-1.5.1.4-new/testsuite/makewith/unsafeio: Unsafe.conf
+Only in plugins-1.5.1.4-new/testsuite/pdynload/small: Plugin.hi
+Only in plugins-1.5.1.4-new/testsuite/pdynload/small: Plugin.o
+Only in plugins-1.5.1.4-new/testsuite/pdynload/small/api: API.hi
+Only in plugins-1.5.1.4-new/testsuite/pdynload/small/api: API.o
