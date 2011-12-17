@@ -33,4 +33,7 @@ runghc -iapi SafeServe.hs
 
 in this directory.  Should work!
 
+Go to http://localhost:3000/edit/Default to get started
+
+
 Somehow the cabal install doesn't quite get things right on Ubuntu.  Let me know if I need to fix this.  I suspect it's some nastiness with getting linker paths right.
