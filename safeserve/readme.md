@@ -7,6 +7,10 @@ This is a bit hacky.  I know I should be updating versions/submit these patches/
 
 * Install ghc 7.2.2
 
+* NOTE: for patches, go into the dir, then run
+
+patch -Np1 < patchfile
+
 * Download data-default (http://hackage.haskell.org/package/data-default) and apply the patch ../data-default.diff and install.  This enables -XTrustworthy. This looks to be safe to me.
 
 * Download hs-plugins (http://hackage.haskell.org/package/plugins-1.5.1.4) and apply the patch ../plugins.diff and install.  This makes it compile with ghc 7.2.2
@@ -17,25 +21,16 @@ This is a bit hacky.  I know I should be updating versions/submit these patches/
 
 * Go to safebase dir and run cabal install
 
-* Run cabal install here
+* Run cabal build (or cabal install) here
 
-NOTE ALSO ALTERNATIVE AT THE BOTTOM!
+# THEN:
 
-# To Run
-
-run the command "safeserve"
-
-Go to http://localhost:3000/edit/Default to get started
-
-
-
-
-# ALTERNATIVELY:
-
-After installing the prereq packages,
+After building and installing,
 
 just run
 
 runghc -iapi SafeServe.hs
 
 in this directory.  Should work!
+
+Somehow the cabal install doesn't quite get things right on Ubuntu.  Let me know if I need to fix this.  I suspect it's some nastiness with getting linker paths right.
