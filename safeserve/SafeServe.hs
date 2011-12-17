@@ -25,7 +25,7 @@ import Hack2.Handler.SnapServer
 import Hack2.Contrib.Request
 import qualified Data.ByteString.Char8 as B
 import qualified Data.ByteString.Lazy.Char8 as L
-import System.FilePath ((</>), normalise, takeDirectory)
+import System.FilePath ((</>), normalise, takeDirectory, joinPath, splitPath)
 import System.Directory
 import Text.Blaze.Renderer.Utf8
 

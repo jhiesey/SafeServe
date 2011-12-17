@@ -913,3 +913,8 @@ A web handler threw an exception. Details:
 [17/Dec/2011:03:34:03 -0800] Server.httpServe: START (EventLoopSimple)
 [17/Dec/2011:07:25:49 -0800] Server.httpServe: SHUTDOWN
 [17/Dec/2011:07:25:49 -0800] Server.httpServe: BACKEND STOPPED
+[17/Dec/2011:07:56:29 -0800] Server.httpServe: START (EventLoopSimple)
+[17/Dec/2011:07:57:00 -0800] Server.httpServe: SHUTDOWN
+[17/Dec/2011:07:57:00 -0800] Server.httpServe: BACKEND STOPPED
+[17/Dec/2011:07:57:41 -0800] Server.httpServe: START (EventLoopSimple)
+[17/Dec/2011:07:58:00 -0800] Server.httpServe: SHUTDOWN
