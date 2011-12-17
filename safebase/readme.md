@@ -1,3 +1,3 @@
 SafeBase
 ========================================
-Put something here
+The base module for SafeServe.

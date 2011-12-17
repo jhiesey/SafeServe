@@ -1,3 +1,3 @@
 SafeBlaze
 ========================================
-Put something here
+Just install.  Not much to know.

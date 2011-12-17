@@ -1,0 +1,8 @@
+--- data-default-0.3.0-orig/data-default.cabal	2011-08-08 03:48:09.000000000 -0700
++++ data-default-0.3.0/data-default.cabal	2011-12-13 05:04:17.000000000 -0800
+@@ -12,4 +12,4 @@
+ Library
+   Build-Depends:     base >=2 && <5, containers, dlist
+   Exposed-Modules:   Data.Default
+-  Ghc-Options:       -Wall -O2
++  Ghc-Options:       -Wall -O2 -XTrustworthy

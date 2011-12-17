@@ -1,0 +1,40 @@
+--- plugins-1.5.1.4-orig/src/System/Plugins/Load.hs	2010-10-18 11:13:03.000000000 -0700
++++ plugins-1.5.1.4/src/System/Plugins/Load.hs	2011-12-13 01:12:34.000000000 -0800
+@@ -84,7 +84,7 @@
+ import System.Directory         ( doesFileExist, removeFile )
+ import Foreign.C.String         ( CString, withCString, peekCString )
+ 
+-import GHC                      ( defaultCallbacks )
++-- import GHC                      ( defaultCallbacks )
+ import GHC.Ptr                  ( Ptr(..), nullPtr )
+ import GHC.Exts                 ( addrToHValue# )
+ import GHC.Prim                 ( unsafeCoerce# )
+@@ -99,7 +99,8 @@
+ readBinIface' :: FilePath -> IO ModIface
+ readBinIface' hi_path = do
+     -- kludgy as hell
+-    e <- newHscEnv defaultCallbacks undefined
++    -- e <- newHscEnv defaultCallbacks undefined
++    e <- newHscEnv undefined
+     initTcRnIf 'r' e undefined undefined (readBinIface IgnoreHiWay QuietBinIFaceReading hi_path)
+ 
+ -- TODO need a loadPackage p package.conf :: IO () primitive
+@@ -281,7 +282,8 @@
+ 
+         hWrite hdl src
+ 
+-        e <- build tmpf tmpf1 (i:is++args++["-fno-code","-ohi "++tmpf1])
++        -- e <- build tmpf tmpf1 (i:is++args++["-fno-code","-ohi "++tmpf1])
++        e <- build tmpf tmpf1 (i:is++args++["-fno-code"]) -- ,"-ohi "++tmpf1])
+         mapM_ removeFile [tmpf,tmpf1]
+         return e
+ 
+@@ -678,7 +680,7 @@
+                 let mods'' = nubBy (\v u -> fst v == fst u)  mods'
+ 
+                 -- and find some packages to load, as well.
+-                let ps = dep_pkgs ds
++                let ps = map fst $ dep_pkgs ds
+                 ps' <- filterM loaded . map packageIdString . nub $ ps
+ 
+ #if DEBUG
