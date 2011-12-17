@@ -38,14 +38,17 @@ rioPutStrLn s = UnsafeRIO $ \_ -> putStrLn s
 printPath :: RIO ()
 printPath = UnsafeRIO $ \path -> putStrLn path
 
+filterPath :: String -> String
+filterPath dangerous = joinPath $ filter ((/=) "..") $ splitPath dangerous
+
 readFileRIO :: String -> RIO String
 readFileRIO name = UnsafeRIO $ \path -> do
   cwd <- getCurrentDirectory
-  let absPath = normalise $ cwd ++ "/plugins/" ++ path ++ "/" ++ name
+  let absPath = normalise $ cwd ++ "/plugins/" ++ path ++ "/" ++ filterPath name
   ST.readFile absPath
   
 writeFileRIO :: String -> String -> RIO ()
 writeFileRIO name contents = UnsafeRIO $ \path -> do
   cwd <- getCurrentDirectory
-  let absPath = normalise $ cwd ++ "/plugins/" ++ path ++ "/" ++ name
+  let absPath = normalise $ cwd ++ "/plugins/" ++ path ++ "/" ++ filterPath name
   writeFile absPath contents

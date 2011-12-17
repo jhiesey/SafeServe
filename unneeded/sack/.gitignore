@@ -1,9 +1,0 @@
-*.swp
-*.swo
-*.o
-*.hi
-
-/_darcs
-/dist
-
-.nemesis

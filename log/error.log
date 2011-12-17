@@ -904,3 +904,12 @@ A web handler threw an exception. Details:
 [15/Dec/2011:11:33:20 -0800] Server.httpServe: START (EventLoopSimple)
 [15/Dec/2011:12:12:36 -0800] Server.httpServe: SHUTDOWN
 [15/Dec/2011:12:12:36 -0800] Server.httpServe: BACKEND STOPPED
+[15/Dec/2011:12:14:22 -0800] Server.httpServe: START (EventLoopSimple)
+[15/Dec/2011:12:58:28 -0800] Server.httpServe: SHUTDOWN
+[15/Dec/2011:12:58:28 -0800] Server.httpServe: BACKEND STOPPED
+[16/Dec/2011:00:34:24 -0800] Server.httpServe: START (EventLoopSimple)
+[16/Dec/2011:00:53:42 -0800] Server.httpServe: SHUTDOWN
+[16/Dec/2011:00:53:42 -0800] Server.httpServe: BACKEND STOPPED
+[17/Dec/2011:03:34:03 -0800] Server.httpServe: START (EventLoopSimple)
+[17/Dec/2011:07:25:49 -0800] Server.httpServe: SHUTDOWN
+[17/Dec/2011:07:25:49 -0800] Server.httpServe: BACKEND STOPPED

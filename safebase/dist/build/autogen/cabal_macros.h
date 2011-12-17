@@ -63,6 +63,13 @@
   (major1) == 2 && (major2) <  0 || \
   (major1) == 2 && (major2) == 0 && (minor) <= 1)
 
+/* package strict-0.3.2 */
+#define VERSION_strict "0.3.2"
+#define MIN_VERSION_strict(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  3 || \
+  (major1) == 0 && (major2) == 3 && (minor) <= 2)
+
 /* package time-1.2.0.5 */
 #define VERSION_time "1.2.0.5"
 #define MIN_VERSION_time(major1,major2,minor) (\

@@ -64,6 +64,9 @@ editor_page siteName fileBody = renderHtml $ editor siteName $ B.unpack fileBody
 uploaded_page :: String -> L.ByteString
 uploaded_page siteName = renderHtml $ uploaded siteName
 
+filterPath :: String -> String
+filterPath dangerous = joinPath $ filter ((/=) "..") $ splitPath dangerous
+
 main = do
   run . miku $ do  
     get "/edit/:sitename" $ do
@@ -100,13 +103,11 @@ main = do
           stuff <- Rd.ask
           let decoded = inputs stuff
           reqBody <- io decoded
-          io $ putStrLn "Got this far!"
           let fileContents = fromJust $ Data.List.lookup "thefile" reqBody
           let destPath = fromJust $ Data.List.lookup "thepath" reqBody
           io $ do
             cwd <- getCurrentDirectory            
             let absPath = normalise $ cwd ++ "/plugins/" ++ name  ++ "/" ++ (normalise $ B.unpack destPath)
-            putStrLn "Got even further"
             putStrLn absPath
             createDirectoryIfMissing True $ takeDirectory absPath
             B.writeFile absPath fileContents
@@ -126,7 +127,7 @@ main = do
         Just name -> runProgMonadic name
 
     get "/" $ do
-      html "You found the homepage!"
+      html "You found the homepage!  Please read the README file for instructions."
 
     public (Just "www") ["/static"]
     
@@ -164,7 +165,7 @@ toSafeEnv hkEnv = do
       Sf.hackVersion = Hk.hackVersion hkEnv,
       Sf.hackUrlScheme = Hk.hackUrlScheme hkEnv,
       Sf.hackInput = toStrict byteStr,
-      Sf.hackErrors = "Can haz error?",
+      Sf.hackErrors = "Can haz error?", -- Put something better here!
       Sf.hackHeaders = Hk.hackHeaders hkEnv
     }
 

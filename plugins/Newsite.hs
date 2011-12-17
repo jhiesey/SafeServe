@@ -51,4 +51,4 @@ templ = docTypeHtml $ do
     H.p $ H.a ! A.href "/run/Newsite/anotherPage" $ "Here's a link to another page"
     H.p $ H.a ! A.href "/run/Newsite/readfile" $ "This page demonstrates reading from a file"
     H.p $ H.a ! A.href "/run/Newsite/counthits" $ "And a hit counter"
-    
+    H.p $ "Hi Feross"
